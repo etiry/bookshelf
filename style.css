@@ -10,3 +10,31 @@
 .book {
   padding: 20px;
 }
+
+.btn-primary:disabled {
+  color: #fff;
+  background-color: #000;
+  border-color: #000;
+}
+
+.spinner-button:hover {
+  background-color: #000;
+  border: 2px solid #000;
+  color: #fff;
+}
+
+.spinner-button i {
+  color: #fff;
+}
+
+.spinner-button:hover i {
+  color: #fff;
+}
+
+.fa {
+  color: #fff;
+}
+
+.fa:hover {
+  color: #fff;
+}

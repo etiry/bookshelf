@@ -48,11 +48,21 @@ const addBooks = function (data) {
 }
 
 document.querySelector('.search').addEventListener('click', function () {
+  const button = this;
+  button.disabled = true;
+  button.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';
+
   var search = document.querySelector('#search-query').value;
 
   fetchBooks(search);
 
   document.querySelector('#search-query').value = '';
+
+  setTimeout(function () {
+    button.disabled = false;
+    button.innerHTML = 'Search';
+  }, 500);
+
 });
 
 renderBooks();
