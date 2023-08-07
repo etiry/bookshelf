@@ -1,12 +1,4 @@
-const books = [
-  {
-    title: 'Harry Potter',
-    author: 'J.K. Rowling',
-    imageURL: 'https://books.google.com/books/content?id=WV8pZj_oNBwC&printsec=frontcover&img=1&zoom=1&edge=curl&source=gbs_api',
-    isbn: '9781921479311',
-    pageCount: 268
-  }
-];
+const books = [];
 
 const renderBooks = function () {
   const booksDiv = document.querySelector('.books');
@@ -26,5 +18,41 @@ const renderBooks = function () {
   })
 
 };
+
+var fetchBooks = function (query) {
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
+  fetch(url, {
+    method: 'GET',
+    dataType: 'json'
+  })
+    .then(data => data.json())
+    .then(data => addBooks(data));
+}
+
+const addBooks = function (data) {
+  const bookItems = data.items;
+
+  bookItems.forEach((book) => {
+    
+    const bookItem = {
+      title: book.volumeInfo.title || null,
+      author: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : null,
+      pageCount: book.volumeInfo.pageCount,
+      isbn: book.volumeInfo.industryIdentifiers ? book.volumeInfo.industryIdentifiers[0].identifier : null,
+      imageURL: book.volumeInfo.imageLinks.smallThumbnail,
+    }
+
+    books.push(bookItem);
+    renderBooks();
+  })
+}
+
+document.querySelector('.search').addEventListener('click', function () {
+  var search = document.querySelector('#search-query').value;
+
+  fetchBooks(search);
+
+  document.querySelector('#search-query').value = '';
+});
 
 renderBooks();
