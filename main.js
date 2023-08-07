@@ -43,7 +43,7 @@ const addBooks = function (data) {
       author: book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : null,
       pageCount: book.volumeInfo.pageCount,
       isbn: book.volumeInfo.industryIdentifiers ? book.volumeInfo.industryIdentifiers[0].identifier : null,
-      imageURL: book.volumeInfo.imageLinks.smallThumbnail,
+      imageURL: book.volumeInfo.imageLinks ? book.volumeInfo.imageLinks.smallThumbnail : null,
     }
 
     books.push(bookItem);
