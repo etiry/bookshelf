@@ -1,4 +1,6 @@
-const books = [];
+let books = [];
+let startIndex = 0;
+let search = null;
 
 const renderBooks = function () {
   const booksDiv = document.querySelector('.books');
@@ -20,7 +22,7 @@ const renderBooks = function () {
 };
 
 var fetchBooks = function (query) {
-  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}`;
+  const url = `https://www.googleapis.com/books/v1/volumes?q=${query}&startIndex=${startIndex}`;
   fetch(url, {
     method: 'GET',
     dataType: 'json'
@@ -31,6 +33,8 @@ var fetchBooks = function (query) {
 
 const addBooks = function (data) {
   const bookItems = data.items;
+
+  books = [];
 
   bookItems.forEach((book) => {
     
@@ -52,7 +56,7 @@ document.querySelector('.search').addEventListener('click', function () {
   button.disabled = true;
   button.innerHTML = '<i class="fa fa-circle-o-notch fa-spin"></i> loading...';
 
-  var search = document.querySelector('#search-query').value;
+  search = document.querySelector('#search-query').value;
 
   fetchBooks(search);
 
@@ -64,5 +68,21 @@ document.querySelector('.search').addEventListener('click', function () {
   }, 500);
 
 });
+
+document.querySelector('.page-next').addEventListener('click', function () {
+  startIndex += 10;
+
+  fetchBooks(search);
+  renderBooks();
+})
+
+document.querySelector('.page-previous').addEventListener('click', function () {
+  if (startIndex) {
+    startIndex -= 10;
+  }
+  
+  fetchBooks(search);
+  renderBooks();
+})
 
 renderBooks();
